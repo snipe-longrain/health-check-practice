@@ -6,7 +6,7 @@ function App() {
 
   async function send() {
     try {
-      const response = await fetch("http://localhost:5011/reverse", {
+      const response = await fetch("/api/reverse", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
