@@ -1,3 +1,5 @@
+using HealthBackend;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -18,5 +20,12 @@ var app = builder.Build();
 app.UseCors("Frontend");
 
 app.MapHealthChecks("/health");
+
+app.MapPost("/reverse", (ReverseRequest request) =>
+{
+    var reversed = new string(request.Text.Reverse().ToArray());
+
+    return Results.Ok(reversed);
+});
 
 app.Run();
