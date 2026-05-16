@@ -9,9 +9,15 @@ type TranslateResponse = {
 function App() {
   const [input, setInput] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("EN");
+  const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<TranslateResponse | null>(null);
+  const [error, setError] = useState("");
 
   async function translate() {
+    setIsLoading(true);
+    setError("");
+    setResult(null);
+
     try {
       const response = await fetch("/api/translate", {
         method: "POST",
@@ -32,7 +38,9 @@ function App() {
       setResult(data);
     } catch (err) {
       console.error(err);
-      setResult(null);
+      setError("번역 요청에 실패했습니다");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -59,7 +67,9 @@ function App() {
         <option value="KO">Korean</option>
       </select>
 
-      <button onClick={translate}>Translate</button>
+      <button onClick={translate} disabled={isLoading}>
+        {isLoading ? "Translating..." : "Translate"}
+      </button>
 
       {result && (
         <section>
@@ -69,6 +79,8 @@ function App() {
           <p>Translated: {result.translatedText}</p>
         </section>
       )}
+
+      {error && <p style={{color: "red"}}></p>}
     </main>
   );
 }
