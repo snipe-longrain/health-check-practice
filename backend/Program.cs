@@ -28,4 +28,17 @@ app.MapPost("/api/reverse", (ReverseRequest request) =>
     return Results.Ok(reversed);
 });
 
+app.MapPost("/api/translate", (TranslateRequest request) =>
+{
+    var translated = $"[{request.TargetLanguage}] {request.Text}";
+
+    var response = new TranslateResponse(
+        OriginalText: request.Text,
+        TranslatedText: translated,
+        TargetLanguage: request.TargetLanguage
+    );
+
+    return Results.Ok(response);
+});
+
 app.Run();
