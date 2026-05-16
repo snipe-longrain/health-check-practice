@@ -1,0 +1,6 @@
+@HealthBackend_HostAddress = http://localhost:5011
+
+GET {{HealthBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
